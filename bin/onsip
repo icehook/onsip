@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'pry'
+
+require File.expand_path('../../lib/onsip', __FILE__)
+
+opts = Trollop::options do
+  opt :uri, "OnSIP URI", :type => :string
+  opt :username, "OnSIP Username", :type => :string
+  opt :password, "OnSIP Password", :type => :string
+end
+
+uri = opts.delete :uri
+
+@connection = begin
+  OnSIP.connect(uri, opts)
+rescue StandardError => e
+  OnSIP.logger.debug e.message
+  OnSIP.logger.debug e.backtrace.join("\n")
+end
+
+pry.binding
