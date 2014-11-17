@@ -127,8 +127,6 @@ module OnSIP
         user = nil
         r = response.env.body['Response']
 
-        pp r
-
         if r && r['Result'] && r['Result']['UserRead'] && r['Result']['UserRead']['User']
           h = r['Result']['UserRead']['User'].delete_if { |key| %w().include?(key) }
           user = new h
