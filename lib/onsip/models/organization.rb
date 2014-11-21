@@ -19,17 +19,10 @@ module OnSIP
 
       def process_browse_organization_response(response)
         organizations = []
-        r = response.env.body['Response']
 
-        if r && r['Result'] && r['Result']['OrganizationBrowse'] && r['Result']['OrganizationBrowse']['Organizations']
-          organizations = if r['Result']['OrganizationBrowse']['Organizations']['Organization'].kind_of?(Array)
-            r['Result']['OrganizationBrowse']['Organizations']['Organization'].flatten.collect { |h| new(h) }
-          else
-            [(new r['Result']['OrganizationBrowse']['Organizations']['Organization'])]
-          end
-        else
-          raise OnSIPRequestException, 'Problem with organization request'
-        end
+        key_path = %w(Response Result OrganizationBrowse Organizations Organization)
+        a = ResponseParser.parse_response response, key_path
+        organizations = a.map { |h| new h } if a
 
         organizations
       end
@@ -42,14 +35,10 @@ module OnSIP
 
       def process_read_organization_response(response)
         organization = nil
-        r = response.env.body['Response']
 
-        if r && r['Result'] && r['Result']['OrganizationRead'] && r['Result']['OrganizationRead']['Organization']
-          h = r['Result']['OrganizationRead']['Organization'].delete_if { |key| %w().include?(key) }
-          organization = new h
-        else
-          raise OnSIPRequestException, 'Problem with organization request'
-        end
+        key_path = %w(Response Result OrganizationRead Organization)
+        a = ResponseParser.parse_response response, key_path
+        organization = (a.map { |h| new h }).first if a
 
         organization
       end

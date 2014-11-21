@@ -12,6 +12,7 @@ require 'onsip/version'
 module OnSIP
   autoload :Connection, 'onsip/connection'
   autoload :Session, 'onsip/session'
+  autoload :ResponseParser, 'onsip/response_parser'
   autoload :Model, 'onsip/model'
   autoload :Account, 'onsip/models/account'
   autoload :User, 'onsip/models/user'

@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["klarrimore@icehook.com"]
   spec.summary       = %q{Onsip Ruby client.}
   spec.description   = %q{Onsip Ruby client.}
-  spec.homepage      = ""
+  spec.homepage      = "http://icehook.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

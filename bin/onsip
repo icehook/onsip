@@ -12,9 +12,12 @@ opts = Trollop::options do
 end
 
 uri = opts.delete :uri
+username = opts.delete :username
+password = opts.delete :password
 
-@connection = begin
+begin
   OnSIP.connect(uri, opts)
+  OnSIP.auth!(username, password)
 rescue StandardError => e
   OnSIP.logger.debug e.message
   OnSIP.logger.debug e.backtrace.join("\n")

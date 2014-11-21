@@ -19,6 +19,7 @@ module OnSIP
 
         c.response :json,  :content_type => /\bjson$/
         c.response :mashify
+        c.response :logger, OnSIP.logger
 
         c.use :instrumentation
         c.adapter Faraday.default_adapter

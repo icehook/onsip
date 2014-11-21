@@ -43,17 +43,10 @@ module OnSIP
 
       def process_browse_user_response(response)
         users = []
-        r = response.env.body['Response']
 
-        if r && r['Result'] && r['Result']['UserBrowse'] && r['Result']['UserBrowse']['Users']
-          users = if r['Result']['UserBrowse']['Users']['User'].kind_of?(Array)
-            r['Result']['UserBrowse']['Users']['User'].flatten.collect { |h| new(h) }
-          else
-            [(new r['Result']['UserBrowse']['Users']['User'])]
-          end
-        else
-          raise OnSIPRequestException, 'Problem with user request'
-        end
+        key_path = %w(Response Result UserBrowse Users User)
+        a = ResponseParser.parse_response response, key_path
+        users = a.map { |h| new h } if a
 
         users
       end
@@ -84,12 +77,9 @@ module OnSIP
         user = nil
         r = response.env.body['Response']
 
-        if r && r['Result'] && r['Result']['UserEditStatus'] && r['Result']['UserEditStatus']['User']
-          h = r['Result']['UserEditStatus']['User'].delete_if { |key| %w().include?(key) }
-          user = new h
-        else
-          raise OnSIPRequestException, 'Problem with user request'
-        end
+        key_path = %w(Response Result UserEditStatus User)
+        a = ResponseParser.parse_response response, key_path
+        user = (a.map { |h| new h }).first if a
 
         user
       end
@@ -106,14 +96,10 @@ module OnSIP
 
       def process_add_user_response(response)
         user = nil
-        r = response.env.body['Response']
 
-        if r && r['Result'] && r['Result']['UserAdd'] && r['Result']['UserAdd']['User']
-          h = r['Result']['UserAdd']['User'].delete_if { |key| %w().include?(key) }
-          user = new h
-        else
-          raise OnSIPRequestException, 'Problem with user request'
-        end
+        key_path = %w(Response Result UserAdd User)
+        a = ResponseParser.parse_response response, key_path
+        user = (a.map { |h| new h }).first if a
 
         user
       end
@@ -125,14 +111,10 @@ module OnSIP
 
       def process_read_user_response(response)
         user = nil
-        r = response.env.body['Response']
 
-        if r && r['Result'] && r['Result']['UserRead'] && r['Result']['UserRead']['User']
-          h = r['Result']['UserRead']['User'].delete_if { |key| %w().include?(key) }
-          user = new h
-        else
-          raise OnSIPRequestException, 'Problem with user request'
-        end
+        key_path = %w(Response Result UserRead User)
+        a = ResponseParser.parse_response response, key_path
+        user = (a.map { |h| new h }).first if a
 
         user
       end

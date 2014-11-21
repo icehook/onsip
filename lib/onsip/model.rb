@@ -8,7 +8,7 @@ module OnSIP
     end
 
     module ClassMethods
-      
+
     end
 
     extend ClassMethods

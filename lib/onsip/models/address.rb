@@ -16,20 +16,13 @@ module OnSIP
       end
 
       def process_browse_address_response(response)
-        addresss = []
-        r = response.env.body['Response']
+        addresses = []
 
-        if r && r['Result'] && r['Result']['UserAddressBrowse'] && r['Result']['UserAddressBrowse']['UserAddresses']
-          addresss = if r['Result']['UserAddressBrowse']['UserAddresses']['UserAddress'].kind_of?(Array)
-            r['Result']['UserAddressBrowse']['UserAddresses']['UserAddress'].flatten.collect { |h| new(h) }
-          else
-            [(new r['Result']['UserAddressBrowse']['UserAddresses']['UserAddress'])]
-          end
-        else
-          raise OnSIPRequestException, 'Problem with address request'
-        end
+        key_path = %w(Response Result UserAddressBrowse UserAddresses UserAddress)
+        a = ResponseParser.parse_response response, key_path
+        addresses = a.map { |h| new h } if a
 
-        addresss
+        addresses
       end
 
       def add(user, attrs = {})
@@ -49,16 +42,10 @@ module OnSIP
 
       def process_add_address_response(response)
         address = nil
-        r = response.env.body['Response']
 
-        ap r
-
-        if r && r['Result'] && r['Result']['UserAddressAdd'] && r['Result']['UserAddressAdd']['UserAddress']
-          h = r['Result']['UserAddressAdd']['UserAddress'].delete_if { |key| %w().include?(key) }
-          address = new h
-        else
-          raise OnSIPRequestException, 'Problem with address request'
-        end
+        key_path = %w(Response Result UserAddressAdd UserAddress)
+        a = ResponseParser.parse_response response, key_path
+        address = (a.map { |h| new h }).first if a
 
         address
       end

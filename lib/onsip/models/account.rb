@@ -26,14 +26,10 @@ module OnSIP
 
       def process_read_account_response(response)
         account = nil
-        r = response.env.body['Response']
 
-        if r && r['Result'] && r['Result']['AccountRead'] && r['Result']['AccountRead']['Account']
-          h = r['Result']['AccountRead']['Account'].delete_if { |key| %w().include?(key) }
-          account = new h
-        else
-          raise OnSIPRequestException, 'Problem with account request'
-        end
+        key_path = %w(Response Result AccountRead Account)
+        a = ResponseParser.parse_response response, key_path
+        account = (a.map { |h| new h }).first if a
 
         account
       end
