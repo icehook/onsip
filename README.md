@@ -31,6 +31,12 @@ users = account.users # Find the Users associated with that account
 pp users
 ```
 
+## TODO
+
+* Document all implemented methods
+* Implement all available methods
+* Add paging for collections
+
 ## Contributing
 
 1. Fork it ( https://github.com/icehook/onsip/fork )
