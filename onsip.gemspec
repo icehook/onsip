@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = OnSIP::VERSION
   spec.authors       = ["Keith Larrimore"]
   spec.email         = ["klarrimore@icehook.com"]
-  spec.summary       = %q{Onsip Ruby client.}
-  spec.description   = %q{Onsip Ruby client.}
+  spec.summary       = %q{OnSIP ruby client.}
+  spec.description   = %q{OnSIP ruby client.}
   spec.homepage      = "http://icehook.com"
   spec.license       = "MIT"
 
