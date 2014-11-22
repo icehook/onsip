@@ -1,6 +1,6 @@
-# Onsip
+# OnSIP
 
-TODO: Write a gem description
+A Ruby Gem that can be used for integration with the OnSIP platform.
 
 ## Installation
 
@@ -20,11 +20,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'onsip'
+
+OnSIP.connect('https://api.onsip.com/api')
+OnSIP.auth!(<username>, <password>)
+
+account = OnSIP.session.account   # Find the account associated with this session
+users = account.users # Find the Users associated with that account
+pp users
+```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/onsip/fork )
+1. Fork it ( https://github.com/icehook/onsip/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

@@ -49,6 +49,22 @@ module OnSIP
 
         address
       end
+
+      // TODO
+      def read(*args)
+        raise NotImplementedError
+      end
+
+      // TODO
+      def edit(*args)
+        raise NotImplementedError
+      end
+
+      // TODO
+      def delete(*args)
+        raise NotImplementedError
+      end
+
     end
 
     extend ClassMethods
