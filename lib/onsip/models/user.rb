@@ -31,7 +31,7 @@ module OnSIP
     end
 
     def addresses
-      Address.browse({'UserId' => self.id})
+      UserAddress.browse({'UserId' => self.id})
     end
 
     module ClassMethods

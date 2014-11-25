@@ -17,7 +17,8 @@ module OnSIP
   autoload :Account, 'onsip/models/account'
   autoload :User, 'onsip/models/user'
   autoload :Organization, 'onsip/models/organization'
-  autoload :Address, 'onsip/models/address'
+  autoload :ExternalAddress, 'onsip/models/external_address'
+  autoload :UserAddress, 'onsip/models/user_address'
   autoload :CDR, 'onsip/models/cdr'
 
   module ClassMethods

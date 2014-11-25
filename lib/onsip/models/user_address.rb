@@ -1,5 +1,5 @@
 module OnSIP
-  class Address
+  class UserAddress
     include Model
 
     DEFAULT_CALL_TIMEOUT = 60
@@ -12,10 +12,10 @@ module OnSIP
       def browse(args)
         params = args.merge({'Action' => 'UserAddressBrowse', 'SessionId' => OnSIP.session.id, 'Output' => 'json'})
         response = OnSIP.connection.get('/api', params, {})
-        process_browse_address_response response
+        process_browse_user_address_response response
       end
 
-      def process_browse_address_response(response)
+      def process_browse_user_address_response(response)
         addresses = []
 
         key_path = %w(Response Result UserAddressBrowse UserAddresses UserAddress)
@@ -37,10 +37,10 @@ module OnSIP
                                 'Output' => 'json' })
 
         response = OnSIP.connection.get('/api', params, {})
-        process_add_address_response response
+        process_add_user_address_response response
       end
 
-      def process_add_address_response(response)
+      def process_add_user_address_response(response)
         address = nil
 
         key_path = %w(Response Result UserAddressAdd UserAddress)
@@ -50,17 +50,17 @@ module OnSIP
         address
       end
 
-      // TODO
+      # TODO
       def read(*args)
         raise NotImplementedError
       end
 
-      // TODO
+      # TODO
       def edit(*args)
         raise NotImplementedError
       end
 
-      // TODO
+      # TODO
       def delete(*args)
         raise NotImplementedError
       end
