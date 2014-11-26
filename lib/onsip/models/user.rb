@@ -84,6 +84,20 @@ module OnSIP
         user
       end
 
+      # Adds a User to an Organization
+      #
+      # reference at http://developer.onsip.com/admin-api/Users/#user-add
+      #
+      # @example Add User
+      # attrs = {'Username' => 'docs',
+      #          'Name' => 'Docs',
+      #          'Email' => 'docs@example.onsip.com',
+      #          'AuthUsername' => 'example',
+      #          'Password' => 'mysuperpassword',
+      #          'PasswordConfirm' => 'mysuperpassword'}
+      # User.add(organization, attrs)
+      #
+      # @return [ User ] The created User.
       def add(organization, attrs = {})
         params = attrs.merge({'Action' => 'UserAdd',
                               'SessionId' => OnSIP.session.id,

@@ -6,6 +6,21 @@ module OnSIP
       @attributes.OrganizationId
     end
 
+    # Adds a User to the Organization
+    #
+    # reference at http://developer.onsip.com/admin-api/Users/#user-add
+    #
+    # @example Add User
+    # attrs = {'Username' => 'docs',
+    #          'Domain' => 'example.onsip.com',
+    #          'Name' => 'Docs',
+    #          'Email' => 'docs@example.onsip.com',
+    #          'AuthUsername' => 'example',
+    #          'Password' => 'mysuperpassword',
+    #          'PasswordConfirm' => 'mysuperpassword'}
+    # organziation.add_user(attrs)
+    #
+    # @return [ User ] The created User.
     def add_user(attrs = {})
       User.add self, attrs
     end
@@ -41,6 +56,26 @@ module OnSIP
         organization = (a.map { |h| new h }).first if a
 
         organization
+      end
+
+      // TODO
+      def add(*args)
+        raise NotImplementedError
+      end
+
+      // TODO
+      def edit_contact(*args)
+        raise NotImplementedError
+      end
+
+      // TODO
+      def migrate_domain(*args)
+        raise NotImplementedError
+      end
+
+      // TODO
+      def edit_authenticated(*args)
+        raise NotImplementedError
       end
     end
 

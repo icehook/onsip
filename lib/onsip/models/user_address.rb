@@ -61,7 +61,7 @@ module OnSIP
       end
 
       # TODO
-      def delete(*args)
+      def delete!(*args)
         raise NotImplementedError
       end
 
