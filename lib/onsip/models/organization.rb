@@ -61,22 +61,22 @@ module OnSIP
         organization
       end
 
-      // TODO
+      # TODO
       def add(*args)
         raise NotImplementedError
       end
 
-      // TODO
+      # TODO
       def edit_contact(*args)
         raise NotImplementedError
       end
 
-      // TODO
+      # TODO
       def migrate_domain(*args)
         raise NotImplementedError
       end
 
-      // TODO
+      # TODO
       def edit_authenticated(*args)
         raise NotImplementedError
       end
