@@ -29,6 +29,7 @@ module OnSIP
       def browse(account_id)
         params = {'Action' => 'OrganizationBrowse', 'AccountId' => account_id, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_browse_organization_response response
       end
 
@@ -45,6 +46,7 @@ module OnSIP
       def read(organization_id)
         params = {'Action' => 'OrganizationRead', 'OrganizationId' => organization_id, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_read_organization_response response
       end
 
@@ -53,6 +55,7 @@ module OnSIP
 
         key_path = %w(Response Result OrganizationRead Organization)
         a = ResponseParser.parse_response response, key_path
+        yield response if block_given?
         organization = (a.map { |h| new h }).first if a
 
         organization

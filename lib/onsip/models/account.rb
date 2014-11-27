@@ -29,6 +29,7 @@ module OnSIP
     module ClassMethods
       def read(account_id)
         response = OnSIP.connection.get('/api', {'Action' => 'AccountRead', 'AccountId' => account_id, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}, {})
+        yield response if block_given?
         process_read_account_response response
       end
 

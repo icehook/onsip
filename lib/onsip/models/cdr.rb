@@ -10,6 +10,7 @@ module OnSIP
       def browse(args = {})
         params = args.merge({'Action' => 'CdrBrowse', 'SessionId' => OnSIP.session.id, 'Output' => 'json'})
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_browse_cdrs_response response
       end
 

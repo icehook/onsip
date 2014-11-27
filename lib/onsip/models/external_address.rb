@@ -16,6 +16,7 @@ module OnSIP
       def browse(args)
         params = args.merge({'Action' => 'ExternalAddressBrowse', 'SessionId' => OnSIP.session.id, 'Output' => 'json'})
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_browse_external_address_response response
       end
 

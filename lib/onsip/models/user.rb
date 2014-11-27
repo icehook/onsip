@@ -54,6 +54,7 @@ module OnSIP
       def delete!(user_id)
         params = {'Action' => 'UserDelete', 'SessionId' => OnSIP.session.id, 'UserId' => user_id, 'Output' => 'json'}
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_delete_user_response response
       end
 
@@ -70,6 +71,7 @@ module OnSIP
       def edit_status(user_id, attrs = {})
         params = attrs.merge({'Action' => 'UserEditStatus', 'SessionId' => OnSIP.session.id, 'UserId' => user_id, 'Output' => 'json'})
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_edit_user_status_response response
       end
 
@@ -105,6 +107,7 @@ module OnSIP
                               'Domain' => organization.attributes.Domain,
                               'Output' => 'json'})
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_add_user_response response
       end
 
@@ -120,6 +123,7 @@ module OnSIP
 
       def read(user_id)
         response = OnSIP.connection.get('/api', {'Action' => 'UserRead', 'UserId' => user_id, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}, {})
+        yield response if block_given?
         process_read_user_response response
       end
 
