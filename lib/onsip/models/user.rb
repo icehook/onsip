@@ -30,7 +30,7 @@ module OnSIP
       @organization ||= Organization.read(self.organization_id)
     end
 
-    def addresses
+    def user_addresses
       UserAddress.browse({'UserId' => self.id})
     end
 
@@ -38,6 +38,7 @@ module OnSIP
       def browse(account_id)
         params = {'Action' => 'UserBrowse', 'AccountId' => account_id, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}
         response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
         process_browse_user_response response
       end
 
