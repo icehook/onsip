@@ -5,7 +5,23 @@ module OnSIP
     DEFAULT_CALL_TIMEOUT = 60
 
     def id
-      @attributes.AddressId
+      @attributes.Address['AddressId']
+    end
+
+    def username
+      @attributes.Address['Username']
+    end
+
+    def domain
+      @attributes.Address['Domain']
+    end
+
+    def auth_username
+      @attributes.AuthUsername
+    end
+
+    def auth_password
+      @attributes.AuthPassword
     end
 
     module ClassMethods

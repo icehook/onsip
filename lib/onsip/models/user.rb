@@ -14,6 +14,26 @@ module OnSIP
       @attributes.OrganizationId
     end
 
+    def status
+      @attributes.Status
+    end
+
+    def domain
+      @attributes.Domain
+    end
+
+    def username
+      @attributes.Username
+    end
+
+    def password
+      @attributes.Password
+    end
+
+    def auth_username
+      @attributes.AuthUsername
+    end
+
     def account
       Account.read self.account_id
     end
