@@ -27,3 +27,5 @@ describe OnSIP::Session do
   end
 
 end
+
+# {"Response"=>{"Context"=>{"Action"=>{"IsCompleted"=>"false"}, "Request"=>{"IsValid"=>"true", "DateTime"=>"2014-12-04T20:07:08+00:00", "Duration"=>"8", "Parameters"=>{"Parameter"=>[{"Name"=>"Action", "Value"=>"SessionCreate"}, {"Name"=>"Output", "Value"=>"json"}, {"Name"=>"Password", "Value"=>"7onsip6"}, {"Name"=>"Username", "Value"=>"klarrimore@icehook.com"}]}, "Errors"=>{"Error"=>{"Parameter"=>"Action", "Code"=>"Accessor.LoginLocked", "Message"=>"You have failed to log in too many times. Please wait 10 minutes then try again."}}}, "Session"=>{"IsEstablished"=>"false"}}}}

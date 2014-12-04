@@ -22,7 +22,7 @@ module OnSIP
   autoload :CDR, 'onsip/models/cdr'
 
   module ClassMethods
-    attr_writer :logger
+    attr_writer :logger, :session
 
     def logger
       @logger ||= init_logger

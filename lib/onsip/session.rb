@@ -36,6 +36,7 @@ module OnSIP
     module ClassMethods
       def create(username, password)
         response = OnSIP.connection.get('/api', {'Action' => 'SessionCreate', 'Username' => username, 'Password' => password, 'Output' => 'json'}, {})
+        yield response if block_given?
         process_create_session_response response
       end
 
@@ -51,6 +52,7 @@ module OnSIP
 
       def destroy!(session_id)
         response = OnSIP.connection.get('/api', {'Action' => 'SessionDestroy', 'SessionId' => session_id, 'Output' => 'json'}, {})
+        yield response if block_given?
         process_destroy_session_response response
       end
 

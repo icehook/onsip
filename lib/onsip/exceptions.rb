@@ -1,17 +1,17 @@
 module OnSIP
-  class OnSIPException < StandardError
-    attr_accessor :options, :exception
+  module Exceptions
+    class OnSIPError < StandardError
+      attr_reader :object
 
-    def initialize(options = {})
-      @options = options
-      @message = @options[:message]
-      @exception = @options[:exception]
+      def initialize(object)
+        @object = object
+      end
     end
-  end
 
-  class OnSIPRequestException < OnSIPException
-    def response
-      @options[:response]
+    class OnSIPRequestError < OnSIPError
+      def response
+        @object[:response]
+      end
     end
   end
 end
