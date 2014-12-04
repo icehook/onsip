@@ -22,7 +22,6 @@ module OnSIP
   autoload :CDR, 'onsip/models/cdr'
 
   module ClassMethods
-    attr_accessor :session
     attr_writer :logger
 
     def logger
@@ -38,7 +37,7 @@ module OnSIP
 
     def connect(uri, options = {})
       @options = Hashie::Mash.new options
-      @connection = Connection.new(:uri => uri)
+      @connection = Connection.new(options.merge({:uri => uri}))
     end
 
     def connection
@@ -50,8 +49,18 @@ module OnSIP
     end
 
     def auth!(username, password)
-      @session = Session.create(username, password)
+      @username, @password = username, password
+      @session = Session.create(@username, @password)
     end
+
+    def session
+      if @session && @session.established?
+        @session
+      elsif @username && @password
+        @session = Session.create(@username, @password)
+      end
+    end
+
   end
 
   extend ClassMethods

@@ -9,6 +9,8 @@ opts = Trollop::options do
   opt :uri, "OnSIP URI", :type => :string
   opt :username, "OnSIP Username", :type => :string
   opt :password, "OnSIP Password", :type => :string
+  opt :log_response_headers, "Log Response Headers", :type => :boolean
+  opt :log_response_body, "Log Response Body", :type => :boolean
 end
 
 uri = opts.delete :uri
@@ -19,8 +21,8 @@ begin
   OnSIP.connect(uri, opts)
   OnSIP.auth!(username, password)
 rescue StandardError => e
-  OnSIP.logger.debug e.message
-  OnSIP.logger.debug e.backtrace.join("\n")
+  OnSIP.logger.warn e.message
+  OnSIP.logger.warn e.backtrace.join("\n")
 end
 
 pry.binding

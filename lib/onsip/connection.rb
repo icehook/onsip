@@ -2,11 +2,15 @@ module OnSIP
   class Connection
 
     USER_AGENT = "onsip-client v#{OnSIP::VERSION}"
+    DEFAULT_OPTIONS = {
+      :log_response_headers => false,
+      :log_response_body => false
+    }
 
     attr_accessor :options, :faraday
 
     def initialize(options = {})
-      @options = options
+      @options = DEFAULT_OPTIONS.merge(options)
       @faraday = self.create_faraday(options[:uri])
     end
 
@@ -19,7 +23,7 @@ module OnSIP
 
         c.response :json,  :content_type => /\bjson$/
         c.response :mashify
-        c.response :logger, OnSIP.logger
+        c.response :logger, OnSIP.logger if @options[:log_response_headers]
 
         c.use :instrumentation
         c.adapter Faraday.default_adapter
@@ -36,6 +40,7 @@ module OnSIP
         env[:total_time] = Time.now.utc.to_f - sent_at.utc.to_f if sent_at
         env[:request_params] = params
         env[:request_options] = options
+        OnSIP.logger.debug env.body if @options[:log_response_body]
         callback.call(env) if callback
       }
 

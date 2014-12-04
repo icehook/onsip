@@ -15,12 +15,22 @@ module OnSIP
       @attributes.UserId
     end
 
+    def established?
+      @attributes.IsEstablished && @attributes.IsEstablished.downcase == 'true'
+    end
+
     def user
       @user ||= User.read(self.user_id)
     end
 
     def account
       @account ||= self.user.account
+    end
+
+    def destroy!
+      session = self.class.destroy!(self.id)
+      self.attributes.merge!(session.attributes)
+      self
     end
 
     module ClassMethods
@@ -31,14 +41,25 @@ module OnSIP
 
       def process_create_session_response(response)
         session = nil
-        r = response.env.body['Response']['Context']
 
-        if r['Request'] && (r['Request']['IsValid'] == 'true') && r['Session']
-          h = r['Session'].delete_if { |key| %w().include?(key) }
-          session = new h
-        else
-          raise OnSIPRequestException, 'Problem with session request'
-        end
+        key_path = %w(Response Context Session)
+        a = ResponseParser.parse_response response, key_path
+        session = (a.map { |h| new h }).first if a
+
+        session
+      end
+
+      def destroy!(session_id)
+        response = OnSIP.connection.get('/api', {'Action' => 'SessionDestroy', 'SessionId' => session_id, 'Output' => 'json'}, {})
+        process_destroy_session_response response
+      end
+
+      def process_destroy_session_response(response)
+        session = nil
+
+        key_path = %w(Response Context Session)
+        a = ResponseParser.parse_response response, key_path
+        session = (a.map { |h| new h }).first if a
 
         session
       end
