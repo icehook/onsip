@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rb-fsevent', '~> 0.9.3'
   spec.add_development_dependency 'simplecov', '~> 0.8.2'
   spec.add_development_dependency 'rspec', '>= 3.1.0'
-  spec.add_runtime_dependency 'activesupport', ['>= 3.0.0', '<= 4.0.0']
+  spec.add_runtime_dependency 'activesupport', '>= 4.0.0'
   spec.add_runtime_dependency 'trollop', '~> 2.0'
   spec.add_runtime_dependency 'multi_json', '~> 1.10.1'
   spec.add_runtime_dependency 'nokogiri', '~> 1.6.1'
