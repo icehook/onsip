@@ -68,9 +68,28 @@ module OnSIP
         address
       end
 
-      # TODO
-      def read(*args)
-        raise NotImplementedError
+      # Read a UserAddress
+      #
+      # reference at http://developer.onsip.com/admin-api/User-Addresses/#user-address-read
+      #
+      # @example UserAddress.read
+      # UserAddress.read(address)
+      #
+      # @return [ UserAddress ] The found UserAddress.
+      def read(address)
+        response = OnSIP.connection.get('/api', {'Action' => 'UserAddressRead', 'SessionId' => OnSIP.session.id, 'Address' => address, 'Output' => 'json'}, {})
+        yield response if block_given?
+        process_read_user_address_response response
+      end
+
+      def process_read_user_address_response(response)
+        user = nil
+
+        key_path = %w(Response Result UserAddressRead UserAddress)
+        a = ResponseParser.parse_response response, key_path
+        user = (a.map { |h| new h }).first if a
+
+        user
       end
 
       # TODO
