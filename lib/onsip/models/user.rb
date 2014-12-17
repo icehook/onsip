@@ -55,8 +55,24 @@ module OnSIP
     end
 
     module ClassMethods
-      def browse(account_id)
-        params = {'Action' => 'UserBrowse', 'AccountId' => account_id, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}
+      include Model::ClassMethods
+
+      DEFAULT_OPTIONS = {
+        :browse => {
+          :order_by => {:k => 'OrderBy', :v => 'UserId'},
+          :limit => {:k => 'Limit', :v => 100},
+          :offset => {:k => 'Offset', :v => 0},
+          :calc_found => {:k => 'CalcFound', :v => true}
+        }
+      }
+
+      def browse(account_id, options = {})
+        params = merge_params(DEFAULT_OPTIONS[:browse], options)
+        params = params.merge({'Action' => 'UserBrowse',
+                               'AccountId' => account_id,
+                               'SessionId' => OnSIP.session.id,
+                               'Output' => 'json'})
+
         response = OnSIP.connection.get('/api', params, {})
         yield response if block_given?
         process_browse_user_response response
