@@ -25,6 +25,10 @@ module OnSIP
       User.add self, attrs
     end
 
+    def migrate_domain(new_domain)
+      self.class.migrate_domain(self.id, self.attributes.Domain, new_domain)
+    end
+
     module ClassMethods
       def browse(account_id)
         params = {'Action' => 'OrganizationBrowse', 'AccountId' => account_id, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}
@@ -61,6 +65,24 @@ module OnSIP
         organization
       end
 
+      def migrate_domain(organization_id, old_domain, new_domain)
+        params = {'Action' => 'OrganizationMigrateDomain', 'OrganizationId' => organization_id, 'OldDomain' => old_domain, 'NewDomain' => new_domain, 'SessionId' => OnSIP.session.id, 'Output' => 'json'}
+        response = OnSIP.connection.get('/api', params, {})
+        yield response if block_given?
+        process_migrate_domain_response response
+      end
+
+      def process_migrate_domain_response(response)
+        organization = nil
+
+        key_path = %w(Response Result OrganizationMigrateDomain Organization)
+        a = ResponseParser.parse_response response, key_path
+        yield response if block_given?
+        organization = (a.map { |h| new h }).first if a
+
+        organization
+      end
+
       # TODO
       def add(*args)
         raise NotImplementedError
@@ -68,11 +90,6 @@ module OnSIP
 
       # TODO
       def edit_contact(*args)
-        raise NotImplementedError
-      end
-
-      # TODO
-      def migrate_domain(*args)
         raise NotImplementedError
       end
 
