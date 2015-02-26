@@ -54,6 +54,10 @@ module OnSIP
       UserAddress.browse({'UserId' => self.id})
     end
 
+    def change_role(role)
+      self.class.change_role self.id, role
+    end
+
     module ClassMethods
       include Model::ClassMethods
 
@@ -173,6 +177,27 @@ module OnSIP
 
         user
       end
+
+      def change_role(user_id, role)
+        response = OnSIP.connection.get('/api', {'Action' => 'UserEditRoleSubmit', 'UserId' => user_id, 'SessionId' => OnSIP.session.id, 'RoleNames[]' => role, 'Output' => 'json'}, {})
+        yield response if block_given?
+        process_change_role_user_response response
+      end
+
+      def process_change_role_user_response(response)
+        user = nil
+
+        key_path = %w(Response Result UserEditRoleSubmit User)
+        a = ResponseParser.parse_response response, key_path
+        user = (a.map { |h| new h }).first if a
+
+        user
+      end
+
+      def generate_random_password(length = 8)
+        SecureRandom.urlsafe_base64[0,8]
+      end
+
     end
 
     extend ClassMethods
