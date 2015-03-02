@@ -58,6 +58,10 @@ module OnSIP
       self.class.change_role self.id, role
     end
 
+    def disable!
+      self.class.edit_status self.id, {'Status' => 'disabled'}
+    end
+
     module ClassMethods
       include Model::ClassMethods
 
